@@ -761,7 +761,11 @@ export default function Guided() {
             Use non-sensitive documents. Verify answers against their sources.
           </p>
           {health.public && (
-            <a href="https://huggingface.co/spaces/Aravindhan11/VoxDoc" target="_blank" rel="noreferrer">
+            <a
+              href="https://huggingface.co/spaces/Aravindhan11/VoxDoc"
+              target="_blank"
+              rel="noreferrer"
+            >
               Hugging Face <ArrowUpRight size={13} />
             </a>
           )}
