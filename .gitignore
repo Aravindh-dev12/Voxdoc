@@ -1,0 +1,16 @@
+.venv/
+__pycache__/
+.pytest_cache/
+.pytest_tmp/
+*.egg-info/
+*.tsbuildinfo
+*.pyc
+.env
+data/
+node_modules/
+dist/
+*.log
+playwright-report/
+test-results/
+deploy/huggingface/evidra.zip
+deploy/huggingface/voxdoc.zip
