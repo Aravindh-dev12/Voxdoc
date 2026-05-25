@@ -83,6 +83,17 @@ def embed(texts, query=False):
         CPU_SLOT.release()
 
 
+@lru_cache(maxsize=128)
+def _cached_query_vector(text):
+    vectors = embed([text], query=True)
+    return tuple(vectors[0]) if vectors else ()
+
+
+def embed_query(text):
+    """Retrieve or compute a cached unit vector for a user query."""
+    return list(_cached_query_vector(text))
+
+
 def index_passages(session, passages):
     ids = [p.id for p in passages]
     if not ids:
@@ -121,7 +132,7 @@ def hybrid_retrieve(question, passages, vectors=None):
     matrix = np.array(
         [vectors[p.id] for p in passages] if vectors is not None else embed(documents)
     )
-    query = np.array(embed([question], query=True)[0])
+    query = np.array(embed_query(question))
     similarities = matrix @ query
     terms = set(words(question))
     counts = [Counter(words(text)) for text in documents]
