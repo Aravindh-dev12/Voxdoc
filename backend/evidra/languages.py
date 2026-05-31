@@ -47,6 +47,27 @@ def translate(text, direction):
         TRANSLATION_SLOT.release()
 
 
+DEVANAGARI_DIGITS = {
+    "०": "0",
+    "१": "1",
+    "२": "2",
+    "३": "3",
+    "४": "4",
+    "५": "5",
+    "६": "6",
+    "७": "7",
+    "८": "8",
+    "९": "9",
+}
+
+
+def normalize_digits(text: str) -> str:
+    """Normalize Devanagari numerals to standard ASCII digits for reliable validation."""
+    for deva, digit in DEVANAGARI_DIGITS.items():
+        text = text.replace(deva, digit)
+    return text
+
+
 def english_question(text):
     return translate(text, "hi-en")
 
@@ -55,6 +76,7 @@ def hindi_answer(text):
     result = translate(text, "en-hi")
     if re.search(r"[a-zA-Z]", result) and not re.search(r"[\u0900-\u097f]", result):
         raise ValueError("Translation did not produce Hindi")
-    if re.findall(r"\d+(?:\.\d+)?", text) != re.findall(r"\d+(?:\.\d+)?", result):
+    norm_result = normalize_digits(result)
+    if re.findall(r"\d+(?:\.\d+)?", text) != re.findall(r"\d+(?:\.\d+)?", norm_result):
         raise ValueError("Translation changed an answer's numbers")
     return result

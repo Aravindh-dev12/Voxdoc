@@ -18,6 +18,10 @@ def test_hindi_reply_translation_rejects_changed_numbers(monkeypatch):
         languages, "translate", lambda text, direction: "आपको 24 दिन मिलते हैं।"
     )
     assert "24" in languages.hindi_answer("You receive 24 days.")
+    monkeypatch.setattr(
+        languages, "translate", lambda text, direction: "आपको २४ दिन मिलते हैं।"
+    )
+    assert languages.hindi_answer("You receive 24 days.") == "आपको २४ दिन मिलते हैं।"
 
 
 def test_ten_concurrent_visitors_keep_documents_and_conversations_separate(
