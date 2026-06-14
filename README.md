@@ -80,7 +80,7 @@ Open http://127.0.0.1:5173. For local language-model and voice setup, see [devel
 
 ## Engineering details
 
-[System design](docs/system-design.md) · [Decisions](docs/decisions.md) · [Evaluation scope](docs/evaluations.md) · [Deployment](docs/deployment.md)
+[System design](docs/system-design.md) · [Decisions](docs/decisions.md) · [Evaluation scope](docs/evaluations.md) · [Deployment](docs/deployment.md) · [Benchmarks](docs/benchmarks.md)
 
 ```powershell
 .venv\Scripts\python -m pytest
