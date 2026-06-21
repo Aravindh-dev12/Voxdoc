@@ -512,6 +512,11 @@ export default function Workbench() {
                         <strong>{active?.title || 'Loading your references…'}</strong>
                       </div>
                       <span className="version">v{active?.version || 1}</span>
+                      {active?.passage_count !== undefined && (
+                        <span className="version" title="Indexed passages count">
+                          {active.passage_count} passages
+                        </span>
+                      )}
                       <button className="text-button" onClick={() => setPage('References')}>
                         Take a look
                         <ArrowUpRight size={14} />
@@ -818,7 +823,14 @@ export default function Workbench() {
                       <span className="version">v{detail.version}</span>
                     </div>
                     <p className="muted">{detail.source}</p>
-                    <div className="hash">SHA-256 · {detail.digest.slice(0, 20)}…</div>
+                    <div className="hash">
+                      SHA-256 · {detail.digest.slice(0, 20)}… · {detail.passages.length} passages ·{' '}
+                      {detail.passages.reduce(
+                        (acc, p) => acc + p.text.split(/\s+/).filter(Boolean).length,
+                        0,
+                      )}{' '}
+                      words
+                    </div>
                     {detail.passages.map((p) => (
                       <article className="passage" key={p.id}>
                         <h3>{p.locator}</h3>
