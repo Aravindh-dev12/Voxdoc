@@ -6,7 +6,9 @@ VoxDoc lets someone ask questions about a handbook, product guide, or set of not
 
 [Try the live demo](https://huggingface.co/spaces/Aravindhan11/VoxDoc)
 
-![Choose a document, talk to it, and check the source](docs/screenshots/guided.jpg)
+<p align="center">
+  <img src="docs/screenshots/guided.jpg" alt="VoxDoc — Turn documents into a voice assistant" width="100%" />
+</p>
 
 ## See it in one minute
 
