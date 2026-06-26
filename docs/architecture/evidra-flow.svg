@@ -92,6 +92,6 @@
 <tspan x="65" dy="0">Today: turn-taking, no streaming, shared HF GPU queue. Each visitor has a separate temporary workspace.</tspan>
 </text>
 <text x="40" y="810" fill="#80b8cc" font-family="Comic Sans MS, Comic Sans, cursive" font-size="15" text-anchor="start">
-<tspan x="40" dy="0">Code baseline: main / 0d1888f  |  rshalvi/evidra  |  deployed design, not a future architecture</tspan>
+<tspan x="40" dy="0">Code baseline: main / 0d1888f  |  Aravindhan11/VoxDoc  |  deployed design, not a future architecture</tspan>
 </text>
 </svg>

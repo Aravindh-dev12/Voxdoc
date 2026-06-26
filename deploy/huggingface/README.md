@@ -35,6 +35,14 @@ Each browser gets a separate temporary workspace. Use non-sensitive files; recor
 
 Free hosting has daily quotas and shared queues. Open this canonical Space page and sign in for your account's quota. The target is ten independent visitors with queued inference, not ten simultaneous real-time calls.
 
+## Author & Contact
+
+Developed by **Aravindhan**:
+- **GitHub**: [@Aravindh-dev12](https://github.com/Aravindh-dev12)
+- **Hugging Face**: [@Aravindhan11](https://huggingface.co/Aravindhan11)
+- **Source Code**: [https://github.com/Aravindh-dev12/Voxdoc](https://github.com/Aravindh-dev12/Voxdoc)
+- **Email**: [aravindh1653@gmail.com](mailto:aravindh1653@gmail.com)
+
 ## Licenses
 
 React, FastAPI and faster-whisper are MIT; Qwen weights are Apache-2.0; Piper's engine is GPL-3.0. Voices have separate notices. The Hindi Pratham voice's dataset is CC-BY-NC-SA-4.0, restricting commercial use. This is a noncommercial portfolio demonstration, not a commercially licensed voice service. Model weights are downloaded from their publishers and are excluded from the source bundle.

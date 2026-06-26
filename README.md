@@ -1,10 +1,18 @@
 # VoxDoc
 
+<p align="left">
+  <a href="https://huggingface.co/spaces/Aravindhan11/VoxDoc"><img src="https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Spaces-yellow?style=flat-square" alt="Hugging Face Spaces" /></a>
+  <a href="https://github.com/Aravindh-dev12/Voxdoc/actions"><img src="https://img.shields.io/github/actions/workflow/status/Aravindh-dev12/Voxdoc/checks.yml?branch=main&style=flat-square" alt="CI Checks" /></a>
+  <img src="https://img.shields.io/badge/python-3.12-blue.svg?style=flat-square" alt="Python 3.12" />
+  <img src="https://img.shields.io/badge/license-MIT-green.svg?style=flat-square" alt="MIT License" />
+</p>
+
 **Turn a document into a voice assistant.**
 
 VoxDoc lets someone ask questions about a handbook, product guide, or set of notes instead of searching through pages. They can speak in English or Hindi, hear a short reply, and check the passage behind it.
 
-[Try the live demo](https://huggingface.co/spaces/Aravindhan11/VoxDoc)
+> 🚀 **Live Demo on Hugging Face:** [https://huggingface.co/spaces/Aravindhan11/VoxDoc](https://huggingface.co/spaces/Aravindhan11/VoxDoc)
+> 🌐 **Direct App:** [https://aravindhan11-voxdoc.hf.space](https://aravindhan11-voxdoc.hf.space)
 
 <p align="center">
   <img src="docs/screenshots/guided.jpg" alt="VoxDoc — Turn documents into a voice assistant" width="100%" />
@@ -89,3 +97,17 @@ Open http://127.0.0.1:5173. For local language-model and voice setup, see [devel
 cd frontend
 npm run build
 ```
+
+## 👤 Author & Contact
+
+Developed by **Aravindhan**:
+- **GitHub**: [@Aravindh-dev12](https://github.com/Aravindh-dev12)
+- **Hugging Face**: [@Aravindhan11](https://huggingface.co/Aravindhan11)
+- **Live Demo Space**: [https://huggingface.co/spaces/Aravindhan11/VoxDoc](https://huggingface.co/spaces/Aravindhan11/VoxDoc)
+- **Email**: [aravindh1653@gmail.com](mailto:aravindh1653@gmail.com)
+
+---
+
+### License
+
+This project is open-source under the MIT License. See [open-source components](docs/open-source.md) for model weight and dataset notices.
