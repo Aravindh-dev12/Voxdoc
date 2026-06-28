@@ -28,6 +28,7 @@ flowchart LR
 - `documents.py`: extraction, hashing, versioning and source locations.
 - `ocr.py`: bounded PDFium rendering and Tesseract English/Hindi OCR. Low-confidence pages fail before indexing; extraction reports preserve OCR use and warnings. Text, OCR passages and voice questions use the same document-scoped pipeline.
 - `pipeline.py`: intent routing, evidence selection, provider interaction and decision trace.
+- `memory.py`: compounding procedural knowledge graph (MemoryNode, MemoryEdge, neuroplastic reinforcement through execution count and confidence scoring, zero-shot recall for long-horizon agent stability).
 - `evaluations.py`: versioned cases and baseline comparison.
 - `voice.py`: optional speech libraries, loaded only when requested.
 

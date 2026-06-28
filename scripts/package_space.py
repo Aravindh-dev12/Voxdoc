@@ -16,6 +16,8 @@ files += sorted(
 )
 files += [
     root / "pyproject.toml",
+    root / "docs/manifesto.md",
+    root / "docs/benchmarks.md",
     root / "docs/system-design.md",
     root / "docs/decisions.md",
     root / "docs/open-source.md",

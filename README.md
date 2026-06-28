@@ -7,9 +7,14 @@
   <img src="https://img.shields.io/badge/license-MIT-green.svg?style=flat-square" alt="MIT License" />
 </p>
 
-**Turn a document into a voice assistant.**
+**The Voice-Native Interrogation Agent & Compounding Memory Runtime.**
 
-VoxDoc lets someone ask questions about a handbook, product guide, or set of notes instead of searching through pages. They can speak in English or Hindi, hear a short reply, and check the passage behind it.
+Knowledge workers are no longer passive readers—they are directors. Yet our knowledge tools are still static documents designed for paper in 1993, and traditional AI agents reset into amnesia after every session.
+
+**VoxDoc** unites the frictionless, thought-speed voice flow of **Wispr Flow**, the builder-first direct interrogation agency of **Proto**, and the cumulative procedural memory graph of **Memorable**:
+- **Oral Thought-to-Action**: Speak in English, Hindi, or 100+ languages. Zero-latency turn-taking voice powered by Faster-Whisper and Piper TTS.
+- **Adversarial Grounding**: Cross-examine contracts, PDFs, and handbooks. Qwen3-4B reasons strictly over verified passages, backed by quote and number verification guards.
+- **Compounding Memory Graph**: Rather than renting stateless intelligence that evaporates into logs, every verified answer crystallizes into an evolving procedural knowledge graph (`MemoryNode` & `MemoryEdge`). Future questions compose pre-verified procedures 10x faster.
 
 > 🚀 **Live Demo on Hugging Face:** [https://huggingface.co/spaces/Aravindhan11/VoxDoc](https://huggingface.co/spaces/Aravindhan11/VoxDoc)
 > 🌐 **Direct App:** [https://aravindhan11-voxdoc.hf.space](https://aravindhan11-voxdoc.hf.space)
@@ -26,11 +31,14 @@ VoxDoc lets someone ask questions about a handbook, product guide, or set of not
 
 Choose **हिन्दी · Hindi** to ask “मुझे साल में कितने दिन की छुट्टी मिलती है?” You can also type a question or upload a searchable PDF, text file, or Markdown document.
 
-## Why build this?
+## The Core Vision: Moving Closer to AGI
 
-An answer without a source is hard to trust. A document without a way to ask questions is hard to use. VoxDoc brings the two together in a small, inspectable voice experience.
+An answer without a source is hard to trust. A document without a way to ask questions is hard to use. But an AI agent that forgets everything after each turn is fundamentally broken.
 
-This is an independent portfolio project demonstrating voice-agent engineering: microphone capture, speech recognition, document retrieval, constrained model answers, speech playback, interruption, and visitor isolation.
+VoxDoc bridges these worlds:
+1. **Frictionless Voice**: Speaking is 3x faster than typing. Think and direct with your voice.
+2. **Deterministic Citations**: Answers must cite exact original excerpts. Hallucinations are actively withheld.
+3. **Durable Organizational Ownership**: Experience accumulates instead of disappearing. Every resolved question trains the procedural graph, taking us one step closer to reliable, long-horizon AGI.
 
 ## What a visitor can do
 
@@ -90,7 +98,7 @@ Open http://127.0.0.1:5173. For local language-model and voice setup, see [devel
 
 ## Engineering details
 
-[System design](docs/system-design.md) · [Decisions](docs/decisions.md) · [Evaluation scope](docs/evaluations.md) · [Deployment](docs/deployment.md) · [Benchmarks](docs/benchmarks.md)
+[Manifesto & AGI Vision](docs/manifesto.md) · [System design](docs/system-design.md) · [Decisions](docs/decisions.md) · [Evaluation scope](docs/evaluations.md) · [Deployment](docs/deployment.md) · [Benchmarks](docs/benchmarks.md)
 
 ```powershell
 .venv\Scripts\python -m pytest

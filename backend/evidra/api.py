@@ -4,7 +4,7 @@ import asyncio
 import os
 from pathlib import Path
 from uuid import uuid4
-from typing import Literal
+from typing import Literal, Optional
 from time import perf_counter
 
 from fastapi import BackgroundTasks, FastAPI, File, Form, HTTPException, UploadFile
@@ -437,6 +437,45 @@ def create_app(database_url=None):
             review.status, review.note = body.status, body.note
             session.commit()
             return {"id": review.id, "status": review.status, "note": review.note}
+
+    @app.get("/api/memory/graph")
+    def memory_graph():
+        from .memory import memory_graph_summary
+
+        with database.session() as session:
+            return memory_graph_summary(session)
+
+    @app.get("/api/memory/recall")
+    def memory_recall(q: str, domain: Optional[str] = None, limit: int = 3):
+        from .memory import recall_experience
+
+        with database.session() as session:
+            return recall_experience(session, query=q, domain=domain, limit=limit)
+
+    @app.post("/api/memory/crystallize", status_code=201)
+    def memory_crystallize(body: dict):
+        concept = body.get("concept")
+        procedure = body.get("procedure")
+        if not concept or not procedure:
+            raise HTTPException(422, "Both concept and procedure are required.")
+        from .memory import crystallize_experience
+
+        with database.session() as session:
+            node = crystallize_experience(
+                session,
+                concept=concept,
+                procedure=procedure,
+                domain=body.get("domain", "general"),
+                source_digest=body.get("source_digest"),
+                confidence=float(body.get("confidence", 1.0)),
+            )
+            return {
+                "id": node.id,
+                "concept": node.concept,
+                "domain": node.domain,
+                "executions": node.execution_count,
+                "confidence": node.confidence,
+            }
 
     @app.get("/api/evaluations")
     def evaluations():
