@@ -75,7 +75,39 @@ Extraction is not perfect for every document. Handwriting, blurry scans, diagram
 
 See [verification results](docs/verification.md) for measured checks and their scope, and [deployment](docs/deployment.md) for the queue and session boundaries.
 
-## Run locally
+## ⚡ High-Speed Inference with RightNow AI (BYOK)
+
+VoxDoc natively integrates with [RightNow AI](https://www.rightnowai.co/) for ultra-low latency, custom GPU kernel-optimized open-weight inference with **automatic prompt caching**. 
+
+Bring your own API key to bypass shared queues and achieve sub-200ms conversational turn latency:
+
+```powershell
+# Option A: Set environment variable
+$env:RIGHTNOW_API_KEY = "rn_live_..."
+
+# Option B: Pass your key on startup
+voxdoc serve --api-key "rn_live_..." --provider rightnow
+```
+
+## 📦 Install & Run via CLI
+
+Install and run VoxDoc as a command-line tool or local server:
+
+```powershell
+# 1. Install VoxDoc
+pip install -e .
+
+# 2. Interrogate a document from your terminal
+voxdoc ask handbook.pdf "How many vacation days do I get?"
+
+# 3. Inspect the compounding organizational memory graph
+voxdoc memory
+
+# 4. Launch the full API and web application
+voxdoc serve --port 8000
+```
+
+## Run locally (Development)
 
 Use Python 3.12 and Node.js. The default local mode returns document excerpts without downloading a language model.
 

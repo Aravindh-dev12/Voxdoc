@@ -20,6 +20,9 @@ embeddings = ["onnxruntime>=1.31,<2", "tokenizers>=0.22,<0.24", "numpy>=1.26,<3"
 voice = ["faster-whisper>=1,<2", "av>=16,<17", "piper-tts>=1.3,<2"]
 chat = ["transformers>=4.51,<6", "torch>=2.6,<3", "sentencepiece>=0.2,<0.3"]
 
+[project.scripts]
+voxdoc = "evidra.cli:main"
+
 [tool.setuptools.packages.find]
 where = ["backend"]
 

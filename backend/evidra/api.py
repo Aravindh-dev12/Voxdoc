@@ -299,9 +299,9 @@ def create_app(database_url=None):
                     raise HTTPException(
                         422, "Keep Hindi questions shorter than 1200 characters."
                     )
-                if settings()["provider"] != "transformers":
+                if settings()["provider"] not in ("transformers", "rightnow", "openai"):
                     raise HTTPException(
-                        503, "Hindi answers need the hosted open model."
+                        503, "Hindi answers need the hosted open model or RightNow AI inference."
                     )
                 from .languages import english_question
 
@@ -476,6 +476,42 @@ def create_app(database_url=None):
                 "executions": node.execution_count,
                 "confidence": node.confidence,
             }
+
+    @app.get("/api/providers")
+    def providers():
+        config = settings()
+        has_rightnow = bool(os.getenv("RIGHTNOW_API_KEY"))
+        has_openai = bool(os.getenv("OPENAI_API_KEY"))
+        return {
+            "active_provider": config["provider"],
+            "model": config["model"],
+            "supported": [
+                {
+                    "name": "rightnow",
+                    "label": "RightNow AI (GPU Kernels + Prompt Caching)",
+                    "configured": has_rightnow,
+                    "default_model": "deepseek-ai/DeepSeek-V3",
+                },
+                {
+                    "name": "openai",
+                    "label": "OpenAI Compatible",
+                    "configured": has_openai,
+                    "default_model": "gpt-4o-mini",
+                },
+                {
+                    "name": "transformers",
+                    "label": "Local Transformers / ZeroGPU",
+                    "configured": True,
+                    "default_model": "Qwen/Qwen3-4B-Instruct-2507",
+                },
+                {
+                    "name": "extractive",
+                    "label": "Local Deterministic Evidence Excerpts",
+                    "configured": True,
+                    "default_model": "verbatim-excerpts",
+                },
+            ],
+        }
 
     @app.get("/api/evaluations")
     def evaluations():
