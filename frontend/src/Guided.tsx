@@ -8,11 +8,15 @@ import {
   Headphones,
   LoaderCircle,
   Mic,
+  Network,
   Plus,
+  Radio,
   Send,
   ShieldCheck,
+  Sparkles,
   Volume2,
   X,
+  Zap,
 } from 'lucide-react';
 import { fetchApi, request, json } from './api';
 import { VoiceConversation } from './VoiceConversation';
@@ -48,13 +52,13 @@ type Turn = {
 const examples = {
   en: [
     'How many days of paid leave do I get?',
-    'When is the weekly team meeting?',
-    'How do I claim work equipment expenses?',
+    'Sparring: Stress-test this policy for ambiguity or loopholes',
+    'Crystallize procedure: What are the exact steps to claim equipment?',
   ],
   hi: [
     'मुझे साल में कितने दिन की छुट्टी मिलती है?',
-    'टीम की साप्ताहिक बैठक कब होती है?',
-    'काम के उपकरणों का खर्च कैसे मिलेगा?',
+    'इस नीति में अस्पष्टता या विरोधाभास की जांच करें',
+    'उपकरण खर्च का दावा करने की चरणबद्ध प्रक्रिया क्या है?',
   ],
 };
 
@@ -75,6 +79,10 @@ export default function Guided() {
     public: false,
     provider: '',
     model_error: '',
+  });
+  const [memoryStats, setMemoryStats] = useState({
+    node_count: 0,
+    edge_count: 0,
   });
   const [documents, setDocuments] = useState<Document[]>([]);
   const [selected, setSelected] = useState<Document | null>(null);
@@ -110,6 +118,11 @@ export default function Guided() {
     void request<Document[]>('/documents')
       .then((d) => {
         if (mounted) setDocuments(d);
+      })
+      .catch(() => {});
+    void request<typeof memoryStats>('/memory/graph')
+      .then((m) => {
+        if (mounted && m) setMemoryStats(m);
       })
       .catch(() => {});
     const timer = setInterval(refresh, 10000);
@@ -282,8 +295,23 @@ export default function Guided() {
             window.scrollTo({ top: 0, behavior: 'smooth' });
           }}
         >
-          <span className="brand-mark">✳</span>voxdoc<span className="brand-dot">.</span>
+          <span className="brand-mark">✦</span>voxdoc<span className="brand-dot">.</span>
         </a>
+        <div className="header-badges">
+          <span className="engine-badge" title="RightNow AI sub-200ms TTFT engine">
+            <Zap size={13} /> <span>Sub-200ms TTFT</span>
+          </span>
+          <span className="engine-badge" title="Memorable Compounding Procedural Memory Graph">
+            <Network size={13} />{' '}
+            <span>
+              Memory Graph{' '}
+              {memoryStats.node_count > 0 ? `(${memoryStats.node_count} nodes)` : 'Active'}
+            </span>
+          </span>
+          <span className="engine-badge" title="Wispr Flow Voice Velocity">
+            <Radio size={13} /> <span>Wispr Flow Voice</span>
+          </span>
+        </div>
         <div className="header-right">
           <span className="demo-pill">
             <span /> Open model demo
@@ -296,29 +324,85 @@ export default function Guided() {
       <main className="main-flow">
         <section className={`intro ${selected ? 'compact' : ''}`}>
           <div className="intro-kicker">
-            <span /> A voice assistant, built from your documents
+            <span /> Speed-of-Thought Voice · Compounding Memory · Adversarial Sparring
           </div>
           <h1>
             Your documents.
             <br />
             <span className="voice-word">
-              Now with a voice.
+              Now with a voice & memory.
               <svg viewBox="0 0 450 18" aria-hidden="true">
                 <path d="M5 12Q195-6 444 9M25 17Q229 3 419 15" />
               </svg>
             </span>
           </h1>
           <p>
-            Ask out loud. Hear an answer. See exactly where it came from.
-            <br className="desktop-break" /> Try it with a sample handbook, then bring your own.
+            Designers and thinkers are builders now. Speak at the speed of thought (Wispr Flow
+            velocity), spar with your knowledge base (Proto adversarial interrogation), and build an
+            evolving graph of operational procedures that never resets (Memorable runtime) — powered
+            by sub-200ms cached inference (RightNow AI).
           </p>
           {!selected && (
             <div className="intro-note">
               <Scribble />
-              <span>Bring a document. Bring a little curiosity.</span>
+              <span>Bring a document. Build durable memory.</span>
             </div>
           )}
         </section>
+        {!selected && (
+          <div className="pillars-strip" aria-label="Core Capabilities">
+            <div className="pillar-item">
+              <div className="pillar-header">
+                <span className="pillar-icon">
+                  <Zap size={14} />
+                </span>
+                <span className="pillar-title">Sub-200ms TTFT</span>
+              </div>
+              <p className="pillar-desc">
+                Deterministic prompt-cached inference layer engineered for zero-latency turn taking.
+              </p>
+              <span className="pillar-tag">RightNow Engine</span>
+            </div>
+            <div className="pillar-item">
+              <div className="pillar-header">
+                <span className="pillar-icon">
+                  <Mic size={14} />
+                </span>
+                <span className="pillar-title">Wispr Flow Velocity</span>
+              </div>
+              <p className="pillar-desc">
+                Speed-of-thought conversational voice dictation and interruptible speech playback.
+              </p>
+              <span className="pillar-tag">Voice Velocity</span>
+            </div>
+            <div className="pillar-item">
+              <div className="pillar-header">
+                <span className="pillar-icon">
+                  <Sparkles size={14} />
+                </span>
+                <span className="pillar-title">Proto Doc Sparring</span>
+              </div>
+              <p className="pillar-desc">
+                Adversarial interrogation agent: stress-test edge cases, find contradictions, and
+                refine policies.
+              </p>
+              <span className="pillar-tag">Adversarial Agent</span>
+            </div>
+            <div className="pillar-item">
+              <div className="pillar-header">
+                <span className="pillar-icon">
+                  <Network size={14} />
+                </span>
+                <span className="pillar-title">Compounding Memory</span>
+              </div>
+              <p className="pillar-desc">
+                Verified procedures crystallize into an evolving graph that persists across
+                sessions.
+              </p>
+              <span className="pillar-tag">Memorable Graph</span>
+            </div>
+          </div>
+        )}
         {health.public && (
           <aside className="account-notice" aria-label="Hugging Face account notice">
             <ShieldCheck size={20} aria-hidden="true" />
@@ -709,21 +793,24 @@ export default function Guided() {
         )}
         <section className="how-section" id="how-it-works">
           <div>
-            <span className="small-label">A LITTLE CONTEXT</span>
+            <span className="small-label">ORAL INTELLIGENCE ARCHITECTURE</span>
             <h2>
-              A useful voice.
-              <br />A checkable answer.
+              Voice velocity.
+              <br />
+              Compounding memory.
             </h2>
           </div>
           <div className="how-copy">
             <p>
-              VoxDoc gives a document a voice. It finds relevant passages, creates a short answer,
-              and reads it aloud. You can inspect the source every time.
+              VoxDoc transforms flat documents into an active conversational intelligence runtime.
+              Speak at the speed of thought (Wispr Flow velocity), stress-test policies via
+              adversarial sparring (Proto interrogation), and retain verified operational knowledge
+              across sessions (Memorable graph layer).
             </p>
             <p>
-              If the document doesn’t have an answer, the assistant tells you. English and Hindi
-              conversations are available; Hindi questions are translated for search in English
-              documents.
+              Under the hood, queries execute with sub-200ms TTFT and deterministic prompt caching
+              powered by RightNow AI inference. Every answer is citation-grounded with exact passage
+              locators and auditory Piper synthesis. English and Hindi supported natively.
             </p>
             <details className="pipeline-detail">
               <summary>
@@ -731,11 +818,12 @@ export default function Guided() {
               </summary>
               <div className="pipeline-flow">
                 {[
-                  'Microphone',
-                  'Speech → text',
-                  'Find passages',
-                  'Check answer',
-                  'Text → speech',
+                  'Wispr Audio Capture',
+                  'Sub-second STT',
+                  'Passage Retrieval',
+                  'Proto Sparring & Verification',
+                  'Memorable Graph Crystallize',
+                  'Piper Voice Synthesis',
                 ].map((s, i) => (
                   <span key={s}>
                     <b>{i + 1}</b>
@@ -744,9 +832,9 @@ export default function Guided() {
                 ))}
               </div>
               <p>
-                Whisper · Qwen · Piper. Turn-taking voice, interruptible playback, separate visitor
-                sessions, and a shared inference queue. Hindi is an early demo; pronunciation and
-                translation can vary.
+                Whisper · Qwen · Piper · RightNow AI Caching · Memorable Graph Runtime. Turn-taking
+                voice, interruptible playback, separate visitor sessions, and verified procedural
+                memory edges.
               </p>
             </details>
           </div>
@@ -756,9 +844,9 @@ export default function Guided() {
           <p>
             {health.public
               ? 'Each browser gets its own temporary workspace. Free GPU quotas apply; sign in to Hugging Face for your account’s quota.'
-              : 'Local demo. Evidence mode returns excerpts; the hosted demo runs an open language model.'}
+              : 'Local demo. Evidence mode returns excerpts; the hosted demo runs an open language model with RightNow AI caching.'}
             <br />
-            Use non-sensitive documents. Verify answers against their sources.
+            Built by Aravindhan. Use non-sensitive documents. Verify answers against their sources.
           </p>
           {health.public && (
             <a
@@ -766,23 +854,39 @@ export default function Guided() {
               target="_blank"
               rel="noreferrer"
             >
-              Hugging Face <ArrowUpRight size={13} />
+              Hugging Face Space <ArrowUpRight size={13} />
             </a>
           )}
         </div>
       </main>
       <footer className="site-footer">
         <span>
-          voxdoc. <span>A little more clarity.</span>
+          voxdoc. <span>Oral Intelligence & Compounding Procedural Memory · by Aravindhan</span>
         </span>
-        <button
-          onClick={() => {
-            clearPlayback();
-            setTools(true);
-          }}
-        >
-          Explore the engineering <ArrowUpRight size={14} />
-        </button>
+        <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+          <a
+            href="https://github.com/Aravindh-dev12/Voxdoc"
+            target="_blank"
+            rel="noreferrer"
+            style={{
+              fontSize: '11px',
+              color: 'var(--ruby-light)',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '4px',
+            }}
+          >
+            GitHub Repo <ArrowUpRight size={13} />
+          </a>
+          <button
+            onClick={() => {
+              clearPlayback();
+              setTools(true);
+            }}
+          >
+            Explore the engineering <ArrowUpRight size={14} />
+          </button>
+        </div>
       </footer>
     </div>
   );

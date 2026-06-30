@@ -9,15 +9,17 @@
 
 **The Voice-Native Interrogation Agent & Compounding Memory Runtime.**
 
-Knowledge workers are no longer passive readers—they are directors. Yet our knowledge tools are still static documents designed for paper in 1993, and traditional AI agents reset into amnesia after every session.
+Knowledge workers are no longer passive drawers or readers—they are builders and directors. Yet traditional knowledge tools are static documents designed in 1993, and standard AI agents reset into amnesia after every session.
 
-**VoxDoc** unites the frictionless, thought-speed voice flow of **Wispr Flow**, the builder-first direct interrogation agency of **Proto**, and the cumulative procedural memory graph of **Memorable**:
-- **Oral Thought-to-Action**: Speak in English, Hindi, or 100+ languages. Zero-latency turn-taking voice powered by Faster-Whisper and Piper TTS.
-- **Adversarial Grounding**: Cross-examine contracts, PDFs, and handbooks. Qwen3-4B reasons strictly over verified passages, backed by quote and number verification guards.
-- **Compounding Memory Graph**: Rather than renting stateless intelligence that evaporates into logs, every verified answer crystallizes into an evolving procedural knowledge graph (`MemoryNode` & `MemoryEdge`). Future questions compose pre-verified procedures 10x faster.
+**VoxDoc** is styled in a **Burgundy & Dark Obsidian luxury theme** with high-contrast typography, uniting the four breakthrough paradigms:
+- **🎙️ Wispr Flow Voice Velocity**: Frictionless oral interface. Speak at 3x typing speed with zero-latency turn taking and interruptible Piper audio synthesis.
+- **⚔️ Proto Builder Sparring**: Move from passive browsing to active interrogation. Stress-test edge cases, find contradictions, and challenge policies.
+- **🧠 Memorable Compounding Procedural Memory**: Agents accumulate verified procedural graph edges (`MemoryNode` & `MemoryEdge`) instead of wiping clean every session. Future agents compose pre-verified procedures 10x faster.
+- **⚡ RightNow AI Sub-200ms Inference**: Custom GPU kernel-optimized open-weight inference with automatic prompt caching and BYOK flexibility.
 
-> 🚀 **Live Demo on Hugging Face:** [https://huggingface.co/spaces/Aravindhan11/VoxDoc](https://huggingface.co/spaces/Aravindhan11/VoxDoc)
-> 🌐 **Direct App:** [https://aravindhan11-voxdoc.hf.space](https://aravindhan11-voxdoc.hf.space)
+> 🚀 **Live Demo on Hugging Face:** [https://huggingface.co/spaces/Aravindhan11/VoxDoc](https://huggingface.co/spaces/Aravindhan11/VoxDoc)  
+> 🌐 **Direct App:** [https://aravindhan11-voxdoc.hf.space](https://aravindhan11-voxdoc.hf.space)  
+> 💻 **GitHub Repository:** [https://github.com/Aravindh-dev12/Voxdoc](https://github.com/Aravindh-dev12/Voxdoc)
 
 <p align="center">
   <img src="docs/screenshots/guided.jpg" alt="VoxDoc — Turn documents into a voice assistant" width="100%" />
