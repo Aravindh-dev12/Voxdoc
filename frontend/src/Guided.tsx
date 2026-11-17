@@ -981,7 +981,7 @@ export default function Guided() {
             rel="noreferrer"
             style={{
               fontSize: '11px',
-              color: 'var(--ruby-light)',
+              color: 'var(--teal)',
               display: 'inline-flex',
               alignItems: 'center',
               gap: '4px',
@@ -1004,7 +1004,7 @@ export default function Guided() {
           <div className="memory-modal-content" onClick={(e) => e.stopPropagation()}>
             <div className="memory-modal-header">
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <Network size={20} color="var(--ruby-light)" />
+                <Network size={20} color="var(--teal)" />
                 <h3>Compounding Procedural Memory Graph (Memorable Runtime)</h3>
               </div>
               <button onClick={() => setShowMemoryModal(false)} aria-label="Close modal">
@@ -1027,23 +1027,23 @@ export default function Guided() {
                 <span className="stat-label">Reinforced Executions</span>
               </div>
             </div>
-            <p style={{ fontSize: '12px', color: 'var(--text-muted)', margin: '14px 0 10px' }}>
+            <p style={{ fontSize: '12px', color: 'var(--muted)', margin: '14px 0 10px' }}>
               Procedural knowledge accumulates across sessions. Rather than starting from scratch, agents recall and compose these pre-verified procedures with sub-200ms latency.
             </p>
             <div className="memory-nodes-list">
               {!memoryGraphData.nodes || memoryGraphData.nodes.length === 0 ? (
-                <p style={{ fontStyle: 'italic', color: 'var(--text-dim)', fontSize: '12px' }}>
+                <p style={{ fontStyle: 'italic', color: 'var(--muted)', fontSize: '12px' }}>
                   No memories crystallized yet. Ask a question or run a procedural extraction to build your organization’s knowledge graph.
                 </p>
               ) : (
                 memoryGraphData.nodes.map((node) => (
                   <div key={node.id} className="memory-node-card">
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <strong style={{ fontSize: '13px', color: '#ffffff' }}>{node.concept}</strong>
+                      <strong style={{ fontSize: '13px', color: 'var(--ink)' }}>{node.concept}</strong>
                       <span className="node-badge">{node.executions || 1}x verified</span>
                     </div>
                     {node.procedure && (
-                      <p style={{ fontSize: '11px', color: 'var(--text-main)', marginTop: '6px' }}>
+                      <p style={{ fontSize: '11px', color: 'var(--ink)', marginTop: '6px' }}>
                         {node.procedure}
                       </p>
                     )}

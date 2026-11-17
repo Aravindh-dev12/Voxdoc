@@ -1,8 +1,8 @@
 ---
 title: VoxDoc
 emoji: 🎙️
-colorFrom: red
-colorTo: purple
+colorFrom: green
+colorTo: blue
 sdk: gradio
 sdk_version: 6.32.0
 python_version: '3.12'
@@ -21,7 +21,7 @@ preload_from_hub:
 
 **The Voice-Native Interrogation Agent & Compounding Memory Runtime.**
 
-Styled in a **Burgundy & Dark Obsidian luxury theme**, VoxDoc unites the four breakthrough paradigms into one unified platform:
+Styled in a **clean white theme with forest green buttons and accent lines**, fully responsive for all screen sizes from mobile to ultra-wide wall displays. VoxDoc unites the four breakthrough paradigms into one unified startup platform:
 - **🎙️ Wispr Flow Voice Velocity**: Frictionless oral interface. Speak at 3x typing speed with zero-latency turn-taking, verbal filler polish, and interruptible Piper audio synthesis.
 - **⚔️ Proto Builder Sparring**: Move from passive reading to active document interrogation. Stress-test edge cases, find ambiguities, and challenge contractual policies.
 - **🧠 Memorable Compounding Procedural Memory**: Agents accumulate verified procedural graph edges (`MemoryNode` & `MemoryEdge`) instead of wiping clean every session. Future agents compose pre-verified procedures 10x faster.

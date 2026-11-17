@@ -11,7 +11,7 @@
 
 Knowledge workers are no longer passive drawers or readers—they are builders and directors. Yet traditional knowledge tools are static documents designed in 1993, and standard AI agents reset into amnesia after every session.
 
-**VoxDoc** is styled in a **Burgundy & Dark Obsidian luxury theme** with high-contrast typography, uniting the four breakthrough paradigms:
+**VoxDoc** is styled in a **clean white theme with signature green buttons and accent lines**, fully responsive across all screens (from mobile viewports to ultra-wide wall displays), uniting the four breakthrough paradigms:
 - **🎙️ Wispr Flow Voice Velocity**: Frictionless oral interface. Speak at 3x typing speed with zero-latency turn taking and interruptible Piper audio synthesis.
 - **⚔️ Proto Builder Sparring**: Move from passive browsing to active interrogation. Stress-test edge cases, find contradictions, and challenge policies.
 - **🧠 Memorable Compounding Procedural Memory**: Agents accumulate verified procedural graph edges (`MemoryNode` & `MemoryEdge`) instead of wiping clean every session. Future agents compose pre-verified procedures 10x faster.
