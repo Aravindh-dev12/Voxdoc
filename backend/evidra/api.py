@@ -373,6 +373,40 @@ def create_app(database_url=None):
                 )
             ]
 
+    @app.get("/api/conversations/{conversation_id}/export")
+    def export_conversation(conversation_id: str, format: str = "markdown"):
+        with database.session() as session:
+            turns = session.scalars(
+                select(Turn)
+                .where(Turn.conversation_id == conversation_id)
+                .order_by(Turn.created_at)
+            ).all()
+            if format == "json":
+                return [
+                    {"id": turn.id, "question": turn.question, **turn.result}
+                    for turn in turns
+                ]
+            lines = [
+                f"# VoxDoc Conversation Transcript",
+                f"",
+                f"**Conversation ID:** `{conversation_id}`",
+                f"",
+            ]
+            for i, turn in enumerate(turns, 1):
+                ans = turn.result.get("answer") or turn.result.get("reason", "")
+                lines.extend(
+                    [
+                        f"### Turn {i}",
+                        f"**Question:** {turn.question}",
+                        f"",
+                        f"**Answer:** {ans}",
+                        f"",
+                    ]
+                )
+            from fastapi.responses import PlainTextResponse
+
+            return PlainTextResponse("\n".join(lines), media_type="text/markdown")
+
     @app.get("/api/reviews")
     def reviews():
         with database.session() as session:

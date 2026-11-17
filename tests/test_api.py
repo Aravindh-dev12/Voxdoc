@@ -73,3 +73,29 @@ def test_bad_upload_and_unknown_document(tmp_path):
             ).status_code
             == 422
         )
+
+
+def test_conversation_export_markdown_and_json(tmp_path):
+    app = create_app(f"sqlite:///{tmp_path / 'export.db'}")
+    with TestClient(app) as client:
+        demo = client.get("/api/documents").json()[0]
+        conv_id = "test-conv-export-123"
+        body = {
+            "question": "What is the study design?",
+            "document_id": demo["id"],
+            "conversation_id": conv_id,
+        }
+        res = client.post("/api/questions", json=body)
+        assert res.status_code == 201
+
+        # Test Markdown export
+        md_res = client.get(f"/api/conversations/{conv_id}/export")
+        assert md_res.status_code == 200
+        assert "VoxDoc Conversation Transcript" in md_res.text
+        assert conv_id in md_res.text
+
+        # Test JSON export
+        json_res = client.get(f"/api/conversations/{conv_id}/export?format=json")
+        assert json_res.status_code == 200
+        assert len(json_res.json()) == 1
+        assert json_res.json()[0]["question"] == "What is the study design?"
