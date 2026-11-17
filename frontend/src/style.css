@@ -1,5 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Kalam:wght@300;400&display=swap');
 
+/* Dark theme design tokens */
+[data-theme='dark'] {
+  --bg-primary: #121814;
+  --bg-surface: #1a241e;
+  --text-primary: #e6ede6;
+  --text-muted: #9fac9f;
+  --border-subtle: #2b3b32;
+}
+
+[data-theme='dark'] body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
 .voice-conversation {
   padding: 12px 4px;
   border-top: 1px solid #2b3b32;
