@@ -1,8 +1,8 @@
 ---
 title: VoxDoc
 emoji: 🎙️
-colorFrom: green
-colorTo: blue
+colorFrom: red
+colorTo: purple
 sdk: gradio
 sdk_version: 6.32.0
 python_version: '3.12'
@@ -19,13 +19,19 @@ preload_from_hub:
 
 # VoxDoc
 
-**Turn your documents into a voice assistant.**
+**The Voice-Native Interrogation Agent & Compounding Memory Runtime.**
+
+Styled in a **Burgundy & Dark Obsidian luxury theme**, VoxDoc unites the four breakthrough paradigms into one unified platform:
+- **🎙️ Wispr Flow Voice Velocity**: Frictionless oral interface. Speak at 3x typing speed with zero-latency turn-taking, verbal filler polish, and interruptible Piper audio synthesis.
+- **⚔️ Proto Builder Sparring**: Move from passive reading to active document interrogation. Stress-test edge cases, find ambiguities, and challenge contractual policies.
+- **🧠 Memorable Compounding Procedural Memory**: Agents accumulate verified procedural graph edges (`MemoryNode` & `MemoryEdge`) instead of wiping clean every session. Future agents compose pre-verified procedures 10x faster.
+- **⚡ RightNow AI Sub-200ms Inference**: Open-weight inference with automatic prompt caching and BYOK flexibility.
 
 Choose **Try the sample**, click **Start talking**, and ask: “How many days of paid leave do I get?” Hear the reply and inspect the source beside it. Upload a PDF, PNG/JPG/WebP image, text file or Markdown document up to 5 MB.
 
 Choose **हिन्दी · Hindi** to ask and hear replies in Hindi. The demo uses English documents; Hindi questions are translated for document search. Voice is turn-taking, with interruptible playback.
 
-After uploading, ask **“What is this document about?”** for an overview, or ask about a specific fact. **Check the imported text** shows extraction and OCR use. Tesseract reads scanned pages with English/Hindi language packs. Unreliable pages are rejected; OCR warnings ask you to verify important facts. Handwriting, blurred scans and table structure are not guaranteed. The demo supports at most 100 PDF pages, 20 OCR pages per upload and 12 megapixels per image.
+After uploading, switch between **💬 Standard Q&A**, **⚔️ Proto Sparring**, and **🧠 Memorable Graph** to direct the intelligence mode. Check the imported text and extraction warnings. Tesseract reads scanned pages with English/Hindi language packs. Unreliable pages are rejected; OCR warnings ask you to verify important facts. Handwriting, blurred scans and table structure are not guaranteed. The demo supports at most 100 PDF pages, 20 OCR pages per upload and 12 megapixels per image.
 
 ## Built with open models
 
