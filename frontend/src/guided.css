@@ -1623,6 +1623,187 @@
   margin-bottom: 12px;
 }
 
+/* Mode Selector */
+.mode-selector {
+  display: flex;
+  gap: 6px;
+  background: #14050a;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 4px;
+  margin-bottom: 12px;
+}
+
+.mode-btn {
+  flex: 1;
+  background: transparent;
+  border: 0;
+  border-radius: 7px;
+  padding: 7px 10px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-muted);
+  transition: all 0.15s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.mode-btn:hover:not(:disabled) {
+  color: #ffffff;
+  background: rgba(128, 0, 32, 0.2);
+}
+
+.mode-btn.active {
+  background: linear-gradient(135deg, var(--burgundy) 0%, var(--ruby) 100%);
+  color: #ffffff;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(128, 0, 32, 0.4);
+}
+
+.speed-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(128, 0, 32, 0.35);
+  border: 1px solid var(--border-hover);
+  color: var(--ruby-light);
+  font-size: 9px;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 12px;
+}
+
+/* Memory Graph Modal */
+.memory-badge-btn {
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.memory-badge-btn:hover {
+  border-color: var(--ruby);
+  background: rgba(128, 0, 32, 0.4);
+  transform: translateY(-1px);
+}
+
+.memory-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(6px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.memory-modal-content {
+  background: #16060c;
+  border: 1px solid var(--border-hover);
+  border-radius: 18px;
+  max-width: 680px;
+  width: 100%;
+  max-height: 85vh;
+  overflow-y: auto;
+  padding: 28px;
+  box-shadow:
+    0 20px 50px rgba(0, 0, 0, 0.7),
+    0 0 30px rgba(128, 0, 32, 0.3);
+  color: #ffffff;
+}
+
+.memory-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.memory-modal-header h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0;
+}
+
+.memory-modal-header button {
+  background: transparent;
+  border: 0;
+  color: var(--text-muted);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  padding: 4px;
+}
+
+.memory-modal-header button:hover {
+  color: #ffffff;
+}
+
+.memory-modal-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.memory-stat-box {
+  background: #1f0812;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px;
+  text-align: center;
+}
+
+.stat-num {
+  display: block;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--ruby-light);
+}
+
+.stat-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--text-dim);
+  margin-top: 4px;
+}
+
+.memory-nodes-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 16px;
+  max-height: 340px;
+  overflow-y: auto;
+}
+
+.memory-node-card {
+  background: #1b0710;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px;
+  transition: border-color 0.15s;
+}
+
+.memory-node-card:hover {
+  border-color: var(--border-hover);
+}
+
+.node-badge {
+  font-size: 9px;
+  font-weight: 600;
+  color: var(--ruby-light);
+  background: rgba(128, 0, 32, 0.3);
+  border: 1px solid var(--border-hover);
+  padding: 2px 8px;
+  border-radius: 12px;
+}
+
 /* Animations */
 @keyframes orbfloat {
   0%,

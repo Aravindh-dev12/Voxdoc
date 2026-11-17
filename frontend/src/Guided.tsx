@@ -48,6 +48,8 @@ type Turn = {
   elapsed_ms: number;
   trace: { stage: string; detail: string }[];
   language?: string;
+  mode?: 'standard' | 'sparring' | 'procedural';
+  ttft_ms?: number;
 };
 const examples = {
   en: [
@@ -80,10 +82,32 @@ export default function Guided() {
     provider: '',
     model_error: '',
   });
+  const [activeMode, setActiveMode] = useState<'standard' | 'sparring' | 'procedural'>('standard');
+  const [showMemoryModal, setShowMemoryModal] = useState(false);
   const [memoryStats, setMemoryStats] = useState({
     node_count: 0,
     edge_count: 0,
   });
+  const [memoryGraphData, setMemoryGraphData] = useState<{
+    node_count: number;
+    edge_count: number;
+    total_reinforced_executions?: number;
+    nodes?: Array<{
+      id: string;
+      concept: string;
+      domain?: string;
+      procedure?: string;
+      executions?: number;
+      confidence?: number;
+    }>;
+    edges?: Array<{
+      id: string;
+      source_id: string;
+      target_id: string;
+      relation: string;
+      weight?: number;
+    }>;
+  }>({ node_count: 0, edge_count: 0 });
   const [documents, setDocuments] = useState<Document[]>([]);
   const [selected, setSelected] = useState<Document | null>(null);
   const [language, setLanguage] = useState<'en' | 'hi'>('en');
@@ -120,9 +144,12 @@ export default function Guided() {
         if (mounted) setDocuments(d);
       })
       .catch(() => {});
-    void request<typeof memoryStats>('/memory/graph')
+    void request<typeof memoryGraphData>('/memory/graph')
       .then((m) => {
-        if (mounted && m) setMemoryStats(m);
+        if (mounted && m) {
+          setMemoryGraphData(m);
+          setMemoryStats({ node_count: m.node_count, edge_count: m.edge_count });
+        }
       })
       .catch(() => {});
     const timer = setInterval(refresh, 10000);
@@ -188,12 +215,23 @@ export default function Guided() {
       if (uploadRef.current) uploadRef.current.value = '';
     }
   }
-  async function ask(text: string, signal?: AbortSignal) {
+  async function ask(
+    text: string,
+    signal?: AbortSignal,
+    overrideMode?: 'standard' | 'sparring' | 'procedural',
+  ) {
     if (!selected || busy || !text.trim()) return;
     const generation = activeGeneration.current;
     setBusy(true);
     setError('');
-    setQueue('Finding your answer');
+    const modeToUse = overrideMode || activeMode;
+    setQueue(
+      modeToUse === 'sparring'
+        ? 'Cross-examining document (Proto Sparring)'
+        : modeToUse === 'procedural'
+          ? 'Compounding procedural graph'
+          : 'Finding your answer',
+    );
     clearPlayback();
     questionAbort.current = new AbortController();
     try {
@@ -205,6 +243,7 @@ export default function Guided() {
             document_id: selected.id,
             conversation_id: conversation,
             language,
+            mode: modeToUse,
           }),
           signal: signal
             ? AbortSignal.any([signal, questionAbort.current.signal])
@@ -215,6 +254,14 @@ export default function Guided() {
       if (generation !== activeGeneration.current) return;
       setTurns((current) => [...current, turn]);
       setQuestion('');
+      void request<typeof memoryGraphData>('/memory/graph')
+        .then((m) => {
+          if (m) {
+            setMemoryGraphData(m);
+            setMemoryStats({ node_count: m.node_count, edge_count: m.edge_count });
+          }
+        })
+        .catch(() => {});
       return turn;
     } catch (e) {
       if (generation === activeGeneration.current && (e as Error).name !== 'AbortError')
@@ -301,13 +348,18 @@ export default function Guided() {
           <span className="engine-badge" title="RightNow AI sub-200ms TTFT engine">
             <Zap size={13} /> <span>Sub-200ms TTFT</span>
           </span>
-          <span className="engine-badge" title="Memorable Compounding Procedural Memory Graph">
+          <button
+            className="engine-badge memory-badge-btn"
+            title="Click to inspect Compounding Procedural Memory Graph"
+            onClick={() => setShowMemoryModal(true)}
+            type="button"
+          >
             <Network size={13} />{' '}
             <span>
               Memory Graph{' '}
               {memoryStats.node_count > 0 ? `(${memoryStats.node_count} nodes)` : 'Active'}
             </span>
-          </span>
+          </button>
           <span className="engine-badge" title="Wispr Flow Voice Velocity">
             <Radio size={13} /> <span>Wispr Flow Voice</span>
           </span>
@@ -632,6 +684,39 @@ export default function Guided() {
                   or type your question
                   <span />
                 </div>
+                <div
+                  className="mode-selector"
+                  role="radiogroup"
+                  aria-label="Select Intelligence Mode"
+                >
+                  <button
+                    type="button"
+                    className={`mode-btn ${activeMode === 'standard' ? 'active' : ''}`}
+                    onClick={() => setActiveMode('standard')}
+                    disabled={busy || voiceActive}
+                    title="Direct citation retrieval"
+                  >
+                    💬 Standard Q&A
+                  </button>
+                  <button
+                    type="button"
+                    className={`mode-btn ${activeMode === 'sparring' ? 'active' : ''}`}
+                    onClick={() => setActiveMode('sparring')}
+                    disabled={busy || voiceActive}
+                    title="Adversarial stress-test: identify loopholes and ambiguities"
+                  >
+                    ⚔️ Proto Sparring
+                  </button>
+                  <button
+                    type="button"
+                    className={`mode-btn ${activeMode === 'procedural' ? 'active' : ''}`}
+                    onClick={() => setActiveMode('procedural')}
+                    disabled={busy || voiceActive}
+                    title="Extract verified procedural steps into memory graph"
+                  >
+                    🧠 Memorable Graph
+                  </button>
+                </div>
                 <form
                   className="question-form"
                   onSubmit={(e) => {
@@ -642,7 +727,13 @@ export default function Guided() {
                   <input
                     aria-label="Your question"
                     placeholder={
-                      language === 'hi' ? 'अपना प्रश्न यहाँ लिखें…' : 'What would you like to know?'
+                      language === 'hi'
+                        ? 'अपना प्रश्न यहाँ लिखें…'
+                        : activeMode === 'sparring'
+                          ? 'Topic to stress-test (e.g. loopholes in overtime policy)…'
+                          : activeMode === 'procedural'
+                            ? 'Procedure to extract into memory graph (e.g. how to claim equipment)…'
+                            : 'What would you like to know?'
                     }
                     value={question}
                     disabled={busy || voiceActive}
@@ -671,7 +762,15 @@ export default function Guided() {
                       <button
                         key={q}
                         disabled={busy || voiceActive || !health.models_ready}
-                        onClick={() => void ask(q)}
+                        onClick={() => {
+                          const m = q.toLowerCase().includes('spar')
+                            ? 'sparring'
+                            : q.toLowerCase().includes('procedure')
+                              ? 'procedural'
+                              : 'standard';
+                          setActiveMode(m);
+                          void ask(q, undefined, m);
+                        }}
                       >
                         {q}
                         <ArrowUpRight size={14} />
@@ -735,7 +834,12 @@ export default function Guided() {
                           >
                             {turn.disposition === 'answer' ? (
                               <>
-                                <Check size={13} /> Answer with sources
+                                <Check size={13} />{' '}
+                                {turn.mode === 'sparring'
+                                  ? 'Adversarial Audit (Proto)'
+                                  : turn.mode === 'procedural'
+                                    ? 'Procedural Memory (Memorable)'
+                                    : 'Answer with sources'}
                               </>
                             ) : turn.disposition === 'review' ? (
                               'Needs a person’s review'
@@ -743,7 +847,14 @@ export default function Guided() {
                               'Not enough information'
                             )}
                           </span>
-                          <span>{(turn.elapsed_ms / 1000).toFixed(1)}s</span>
+                          <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                            {turn.ttft_ms && (
+                              <span className="speed-badge" title="RightNow AI Time-to-First-Token">
+                                <Zap size={10} /> {turn.ttft_ms}ms TTFT
+                              </span>
+                            )}
+                            <span>{(turn.elapsed_ms / 1000).toFixed(1)}s</span>
+                          </div>
                         </div>
                         <p className="spoken-answer" lang={turn.language === 'hi' ? 'hi' : 'en'}>
                           {turn.answer || turn.reason}
@@ -888,6 +999,61 @@ export default function Guided() {
           </button>
         </div>
       </footer>
+      {showMemoryModal && (
+        <div className="memory-modal-overlay" onClick={() => setShowMemoryModal(false)}>
+          <div className="memory-modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="memory-modal-header">
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <Network size={20} color="var(--ruby-light)" />
+                <h3>Compounding Procedural Memory Graph (Memorable Runtime)</h3>
+              </div>
+              <button onClick={() => setShowMemoryModal(false)} aria-label="Close modal">
+                <X size={18} />
+              </button>
+            </div>
+            <div className="memory-modal-stats">
+              <div className="memory-stat-box">
+                <span className="stat-num">{memoryGraphData.node_count || memoryStats.node_count}</span>
+                <span className="stat-label">Verified Nodes</span>
+              </div>
+              <div className="memory-stat-box">
+                <span className="stat-num">{memoryGraphData.edge_count || memoryStats.edge_count}</span>
+                <span className="stat-label">Relational Edges</span>
+              </div>
+              <div className="memory-stat-box">
+                <span className="stat-num">
+                  {memoryGraphData.total_reinforced_executions || 0}
+                </span>
+                <span className="stat-label">Reinforced Executions</span>
+              </div>
+            </div>
+            <p style={{ fontSize: '12px', color: 'var(--text-muted)', margin: '14px 0 10px' }}>
+              Procedural knowledge accumulates across sessions. Rather than starting from scratch, agents recall and compose these pre-verified procedures with sub-200ms latency.
+            </p>
+            <div className="memory-nodes-list">
+              {!memoryGraphData.nodes || memoryGraphData.nodes.length === 0 ? (
+                <p style={{ fontStyle: 'italic', color: 'var(--text-dim)', fontSize: '12px' }}>
+                  No memories crystallized yet. Ask a question or run a procedural extraction to build your organization’s knowledge graph.
+                </p>
+              ) : (
+                memoryGraphData.nodes.map((node) => (
+                  <div key={node.id} className="memory-node-card">
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <strong style={{ fontSize: '13px', color: '#ffffff' }}>{node.concept}</strong>
+                      <span className="node-badge">{node.executions || 1}x verified</span>
+                    </div>
+                    {node.procedure && (
+                      <p style={{ fontSize: '11px', color: 'var(--text-main)', marginTop: '6px' }}>
+                        {node.procedure}
+                      </p>
+                    )}
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -30,6 +30,27 @@ def transcription_model(language="en"):
     )
 
 
+def polish_spoken_text(text: str) -> str:
+    """Wispr Flow-inspired speech cleanup: eliminates fillers, fixes spacing & capitalization."""
+    if not text:
+        return ""
+    import re
+
+    # Remove verbal fillers
+    cleaned = re.sub(
+        r"\b(um|uh|er|ah|like|you know|so basically|kind of)\b",
+        "",
+        text,
+        flags=re.I,
+    )
+    # Remove duplicate whitespace
+    cleaned = re.sub(r"\s+", " ", cleaned).strip()
+    # Capitalize first letter
+    if cleaned:
+        cleaned = cleaned[0].upper() + cleaned[1:]
+    return cleaned
+
+
 def transcribe(content, language="en"):
     if not SPEECH_SLOTS.acquire(timeout=60):
         raise VoiceBusy("Voice is busy. Please try again in a moment.")
@@ -46,7 +67,8 @@ def transcribe(content, language="en"):
         )
         if info.duration > 30:
             raise ValueError("Keep voice turns shorter than 30 seconds")
-        return " ".join(segment.text.strip() for segment in segments)
+        raw = " ".join(segment.text.strip() for segment in segments)
+        return polish_spoken_text(raw)
     finally:
         if name:
             Path(name).unlink(missing_ok=True)

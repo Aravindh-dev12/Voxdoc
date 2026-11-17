@@ -28,6 +28,7 @@ class Question(BaseModel):
     document_id: str
     language: Literal["en", "hi"] = "en"
     conversation_id: str = Field(default_factory=lambda: str(uuid4()), max_length=36)
+    mode: Optional[Literal["standard", "sparring", "procedural"]] = "standard"
 
 
 class Decision(BaseModel):
@@ -319,6 +320,8 @@ def create_app(database_url=None):
                     previous_question,
                     language=body.language,
                     vectors=vectors,
+                    mode=body.mode or "standard",
+                    db_session=session,
                 )
             except (ValueError, RuntimeError, OSError):
                 raise HTTPException(
@@ -342,6 +345,21 @@ def create_app(database_url=None):
                     "document_digest": document.digest,
                 }
             )
+            # Auto-crystallize into Memorable procedural memory graph
+            if result.get("disposition") == "answer" and result.get("answer"):
+                try:
+                    from .memory import crystallize_experience
+
+                    crystallize_experience(
+                        session=session,
+                        concept=body.question.strip(),
+                        procedure=result["answer"],
+                        domain=document.title or "general",
+                        source_digest=document.digest,
+                        confidence=0.95,
+                    )
+                except Exception:
+                    pass
             turn = Turn(
                 conversation_id=body.conversation_id,
                 document_id=document.id,

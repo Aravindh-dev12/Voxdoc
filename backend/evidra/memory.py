@@ -184,9 +184,21 @@ def memory_graph_summary(session) -> Dict:
             {
                 "id": n.id,
                 "concept": n.concept,
+                "domain": n.domain,
+                "procedure": n.procedure[:180] + ("..." if len(n.procedure) > 180 else ""),
                 "executions": n.execution_count,
                 "confidence": n.confidence,
             }
-            for n in nodes[:20]
+            for n in nodes[:30]
+        ],
+        "edges": [
+            {
+                "id": e.id,
+                "source_id": e.source_id,
+                "target_id": e.target_id,
+                "relation": e.relation,
+                "weight": e.weight,
+            }
+            for e in edges[:50]
         ],
     }

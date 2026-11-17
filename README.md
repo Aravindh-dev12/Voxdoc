@@ -99,13 +99,20 @@ Install and run VoxDoc as a command-line tool or local server:
 # 1. Install VoxDoc
 pip install -e .
 
-# 2. Interrogate a document from your terminal
+# 2. Interrogate a document from your terminal (Standard Mode)
 voxdoc ask handbook.pdf "How many vacation days do I get?"
 
-# 3. Inspect the compounding organizational memory graph
-voxdoc memory
+# 3. ⚔️ Proto Adversarial Sparring (Stress-test policies and identify loopholes)
+voxdoc spar handbook.pdf "remote work and expense reimbursement"
 
-# 4. Launch the full API and web application
+# 4. 🎙️ Wispr Flow Thought Polish (Remove verbal disfluencies and normalize)
+voxdoc flow "um, so basically we need to, like, approve the vendor invoice by Friday, you know?"
+
+# 5. 🧠 Memorable Compounding Procedural Memory Graph
+voxdoc memory
+voxdoc memory --export ./procedural_memory_graph.json
+
+# 6. Launch the full API and web application
 voxdoc serve --port 8000
 ```
 
