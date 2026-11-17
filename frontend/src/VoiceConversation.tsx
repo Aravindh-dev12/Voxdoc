@@ -15,6 +15,7 @@ export function VoiceConversation({ disabled, send, fetchApi, language = 'en', o
   const [error, setError] = useState('');
   const [transcript, setTranscript] = useState('');
   const [handsFree, setHandsFree] = useState(false);
+  const [playbackRate, setPlaybackRate] = useState(1);
   const finishQuestion = useRef<(() => void) | null>(null);
   const running = useRef(false);
   const generation = useRef(0);
@@ -95,6 +96,7 @@ export function VoiceConversation({ disabled, send, fetchApi, language = 'en', o
       if (!running.current || turn !== generation.current) return;
       audioUrl.current = URL.createObjectURL(bytes);
       const player = new Audio(audioUrl.current);
+      player.playbackRate = playbackRate;
       audio.current = player;
       player.onended = () => {
         clearAudio();
@@ -227,6 +229,18 @@ export function VoiceConversation({ disabled, send, fetchApi, language = 'en', o
                 <Volume2 size={14} /> Interrupt & speak
               </button>
             )}
+            <button
+              type="button"
+              className="text-button"
+              title="Change audio playback speed"
+              onClick={() => {
+                const nextRate = playbackRate === 1 ? 1.25 : playbackRate === 1.25 ? 1.5 : 1;
+                setPlaybackRate(nextRate);
+                if (audio.current) audio.current.playbackRate = nextRate;
+              }}
+            >
+              {playbackRate}x speed
+            </button>
             <button type="button" className="text-button" onClick={stop}>
               <Square size={13} /> End voice
             </button>
